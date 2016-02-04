@@ -61,40 +61,53 @@ void	ft_display_menu(t_elem *l)
 {
 	char	*line;
 	struct termios	term;
+	int		lin;
+	int		col;
+	char	*termtype;
 
-	tcgetattr(0, &term);
+	termtype = NULL;
+ 	tcgetattr(0, &term);
 	term.c_lflag &= ~(ICANON | ECHO);
 	tcsetattr(0, TCSANOW, &term);
+	if (!(line = (char *)malloc(sizeof(char) * 4)))
+		return ;
+	display_list(l, termtype);
 	while (42)
 	{
-		printf("%s\n", l->name);
-		while (get_next_line(0, &line) == -1)
+		termtype = getenv("TERM");
+		tgetent(NULL, termtype);
+		lin = tgetnum("li");
+		col = tgetnum("co");
+		ft_bzero(line, ft_strlen(line));
+		while (read(0, line, 4) == -1)
 		{
 		}
-		if (ft_strcmp(line, UP) == 0)
-			printf("up\n");
-		if (ft_strcmp(line, DOWN) == 0)
-			printf("down\n");
-		if (ft_strcmp(line, LEFT) == 0)
-			printf("left\n");
-		if (ft_strcmp(line, RIGHT) == 0)
-			printf("right\n");
-		free(line);
+		ft_get_input(line);
 	}
 }
 
+void	display_list(t_elem *l, char *termtype)
+{
+	char 	*under;
+
+	termtype = getenv("TERM");
+	tgetent(NULL, termtype);
+	while (l)
+	{
+		under = tgetstr("us", NULL);
+		tputs(under, 1, int_char);
+		l = l->next;
+	}
+}
 int		main(int ac, char **av)
 {
 	t_elem	*list;
 	int		i;
 
-	i = 1;
+	i = 0;
 	list = NULL;
-	while (i < ac)
-	{
+	while (i++ < ac - 1)
 		list = ft_push_back(&list, av[i]);
-		i++;
-	}
 	ft_display_menu(list);
 	return (0);
 }
