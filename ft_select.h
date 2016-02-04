@@ -12,10 +12,6 @@
 
 #ifndef FT_SELECT_H
 # define FT_SELECT_H
-# define UP "\027[A"
-# define DOWN "\027[B"
-# define LEFT "\027[C"
-# define RIGHT "\027[D"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -27,13 +23,20 @@
 #include <signal.h>
 #include "libft/libft.h"
 #include "get_next_line.h"
+#include <termcap.h>
 
 typedef struct		s_elem
 {
 	char			*name;
 	int				select;
+	int				cursor;
 	struct s_elem	*next;
 	struct s_elem	*prev;
 }					t_elem;
+
+void				ft_get_input(char *s, t_elem *l, char *termtype);
+int					int_char(int c);
+void				display_list(t_elem *l, char *s);
+void				ft_unset_canon(void);
 
 #endif

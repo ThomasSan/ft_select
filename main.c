@@ -25,9 +25,13 @@ t_elem	*ft_push_back(t_elem **l, char *s)
 	new->next = NULL;
 	new->prev = NULL;
 	if (*l == NULL)
+	{
+		new->cursor = 1;
 		*l = new;
+	}
 	else
 	{
+		new->cursor = 0;
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
@@ -82,20 +86,30 @@ void	ft_display_menu(t_elem *l)
 		while (read(0, line, 4) == -1)
 		{
 		}
-		ft_get_input(line);
+		ft_get_input(line, l, termtype);
 	}
 }
 
 void	display_list(t_elem *l, char *termtype)
 {
-	char 	*under;
+	char	*under;
+	char	*norma;
+	// char	*str;
+	char	*nocurs;
 
 	termtype = getenv("TERM");
 	tgetent(NULL, termtype);
+	under = tgetstr("us", NULL);
+	norma = tgetstr("ue", NULL);
+	nocurs = tgetstr("vi", NULL);
+	tputs(nocurs, 1, int_char);
 	while (l)
 	{
-		under = tgetstr("us", NULL);
-		tputs(under, 1, int_char);
+		if (l->cursor)
+			tputs(under, 1, int_char);
+		ft_putnbr(l->cursor);
+		ft_putendl(l->name);
+		tputs(norma, 1, int_char);
 		l = l->next;
 	}
 }
