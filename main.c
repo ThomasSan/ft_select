@@ -81,8 +81,7 @@ void	ft_display_menu(t_elem *l)
 		while (read(0, line, 4) == -1)
 		{
 		}
-		// l = ft_list_circl(l);
-		ft_get_input(line, l, termtype);
+		ft_get_input(line, l, termtype, term);
 	}
 }
 
