@@ -22,3 +22,9 @@ void	ft_unset_canon(void)
 	tcsetattr(0, TCSANOW, &term);
 	exit(0);
 }
+
+void	ft_handle_sig(int sig)
+{
+	if (sig == SIGINT)
+		ft_unset_canon();
+}

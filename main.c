@@ -40,24 +40,19 @@ t_elem	*ft_push_back(t_elem **l, char *s)
 	return (*l);
 }
 
-void	ft_display_lst(t_elem *l)
+void	ft_display_selected(t_elem *l, char *termtype)
 {
-	t_elem	*tmp1;
-	t_elem	*tmp2;
-	
-	tmp1 = l;
-	tmp2 = l;
-	while (tmp1)
+	termtype = getenv("TERM");
+	tgetent(NULL, termtype);
+	tputs(tgetstr("cl", NULL), 1, int_char);
+	while (l)
 	{
-		printf("%s\n", tmp1->name);
-		tmp1 = tmp1->next;
-	}
-	while (tmp2->next)
-		tmp2 = tmp2->next;
-	while (tmp2)
-	{
-		printf("tmp2 %s\n", tmp2->name);
-		tmp2 = tmp2->prev;
+		if (l->select)
+		{
+			ft_putstr(l->name);
+			ft_putchar(' ');
+		}
+		l = l->next;
 	}
 }
 
@@ -86,30 +81,31 @@ void	ft_display_menu(t_elem *l)
 		while (read(0, line, 4) == -1)
 		{
 		}
+		// l = ft_list_circl(l);
 		ft_get_input(line, l, termtype);
 	}
 }
 
 void	display_list(t_elem *l, char *termtype)
 {
-	char	*under;
-	char	*norma;
-	// char	*str;
-	char	*nocurs;
+	int		i;
 
+	i = ft_list_len(l);
 	termtype = getenv("TERM");
 	tgetent(NULL, termtype);
-	under = tgetstr("us", NULL);
-	norma = tgetstr("ue", NULL);
-	nocurs = tgetstr("vi", NULL);
-	tputs(nocurs, 1, int_char);
-	while (l)
+	tputs(tgetstr("cl", NULL), 1, int_char);
+	tputs(tgetstr("vi", NULL), 1, int_char);
+	while (i--)
 	{
 		if (l->cursor)
-			tputs(under, 1, int_char);
-		ft_putnbr(l->cursor);
+			tputs(tgetstr("us", NULL), 1, int_char);
+		if (l->select)
+		{
+			tputs(tgetstr("mr", NULL), 1, int_char);
+		}
 		ft_putendl(l->name);
-		tputs(norma, 1, int_char);
+		tputs(tgetstr("ue", NULL), 1, int_char);
+		tputs(tgetstr("me", NULL), 1, int_char);
 		l = l->next;
 	}
 }
@@ -120,6 +116,8 @@ int		main(int ac, char **av)
 
 	i = 0;
 	list = NULL;
+	// if (signal(SIGINT, ft_handle_sig) == SIG_ERR)
+	// 	ft_putendl("Error");
 	while (i++ < ac - 1)
 		list = ft_push_back(&list, av[i]);
 	ft_display_menu(list);

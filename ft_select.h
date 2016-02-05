@@ -38,5 +38,9 @@ void				ft_get_input(char *s, t_elem *l, char *termtype);
 int					int_char(int c);
 void				display_list(t_elem *l, char *s);
 void				ft_unset_canon(void);
+t_elem				*ft_list_circl(t_elem *l);
+int					ft_list_len(t_elem *l);
+void				ft_handle_sig(int sig);
+void				ft_display_selected(t_elem *l, char *termtype);
 
 #endif
