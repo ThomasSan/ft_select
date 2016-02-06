@@ -1,6 +1,6 @@
 #include "ft_select.h"
 
-void	ft_up(t_elem *l, char *termtype)
+void	ft_up(t_elem *l)
 {
 	t_elem	*tmp;
 
@@ -22,10 +22,10 @@ void	ft_up(t_elem *l, char *termtype)
 		}
 		l = l->next;
 	}
-	display_list(tmp, termtype);
+	ft_display_size(tmp);
 }
 
-void	ft_down(t_elem *l, char *termtype)
+void	ft_down(t_elem *l)
 {
 	t_elem	*tmp;
 
@@ -43,10 +43,10 @@ void	ft_down(t_elem *l, char *termtype)
 		}
 		l = l->next;
 	}
-	display_list(tmp, termtype);
+	ft_display_size(tmp);
 }
 
-void	ft_space(t_elem *l, char *termtype)
+void	ft_space(t_elem *l)
 {	
 	t_elem	*tmp;
 
@@ -68,7 +68,7 @@ void	ft_space(t_elem *l, char *termtype)
 		}
 		l = l->next;
 	}
-	display_list(tmp, termtype);
+	ft_display_size(tmp);
 }
 
 void	ft_enter(t_elem *l, char *termtype, struct termios term)

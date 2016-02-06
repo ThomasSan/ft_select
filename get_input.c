@@ -2,16 +2,17 @@
 
 void	ft_get_input(char *s, t_elem *l, char *termtype, struct termios term)
 {
+		ft_display_size(l);
 		if (s[0] == 27 && s[2] == 'A')
-			ft_up(l, termtype);
+			ft_up(l);
 		if (s[0] == 27 && s[2] == 'B')
-			ft_down(l, termtype);
+			ft_down(l);
 		if (s[0] == 27 && s[2] == 'C')
 			printf("right\n");
 		if (s[0] == 27 && s[2] == 'D')
 			printf("left\n");
 		if (s[0] == 32)
-			ft_space(l, termtype);
+			ft_space(l);
 		if (s[0] == 1)
 			ft_select_all(l, termtype);	
 		if (s[0] == 24)

@@ -47,13 +47,15 @@ void				ft_handle_sig(int sig);
 void				ft_display_selected(t_elem *l, char *termtype);
 void				ft_display_menu(t_elem *l);
 void				ft_env_error(void);
+void				ft_putendl_blue(char *s);
+void				ft_display_size(t_elem *l);
 
 int					ft_list_len(t_elem *l);
 int					int_char(int c);
 
-void				ft_up(t_elem *l, char *termtype);
-void				ft_down(t_elem *l, char *termtype);
-void				ft_space(t_elem *l, char *termtype);
+void				ft_up(t_elem *l);
+void				ft_down(t_elem *l);
+void				ft_space(t_elem *l);
 void				ft_enter(t_elem *l, char *termtype, struct termios term);
 void				ft_select_all(t_elem *l, char *termtype);
 void				ft_unselect_all(t_elem *l, char *termtype);
