@@ -18,14 +18,24 @@ void	ft_unset_canon(struct termios term)
 	tputs(curs, 1, int_char);
 	if (tcgetattr(0, &term) == -1)
 		printf("c get error\n");
-	term.c_lflag &= (ICANON | ECHO);
+	term.c_lflag |= (ICANON | ECHO);
 	if (tcsetattr(0, 0, &term))
 		printf("c set error\n");
 	exit(0);
 }
 
-// void	ft_handle_sig(int sig)
-// {
-// 	if (sig == SIGINT)
-// 		ft_unset_canon(term);
-// }
+void	ft_handle_sig(int sig)
+{
+	struct termios	term;
+
+	if (sig == SIGINT)
+		ft_unset_canon(term);
+}
+
+void	ft_env_error(void)
+{
+	struct termios	term;
+
+	ft_putendl("Please Specify a valid Terminal/Environement");
+	ft_unset_canon(term);
+}

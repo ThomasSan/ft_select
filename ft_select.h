@@ -16,7 +16,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <dirent.h>
 #include <sys/ioctl.h>
+#include <sys/types.h>
 #include <termios.h>
 #include <curses.h>
 #include <term.h>
@@ -30,17 +32,30 @@ typedef struct		s_elem
 	char			*name;
 	int				select;
 	int				cursor;
+	int				isdir;
 	struct s_elem	*next;
 	struct s_elem	*prev;
 }					t_elem;
 
-void				ft_get_input(char *s, t_elem *l, char *termtype,struct termios term);
-int					int_char(int c);
+t_elem				*ft_push_back(t_elem **l, char *s);
+t_elem				*ft_list_circl(t_elem *l);
+
+void				ft_get_input(char *s, t_elem *l, char *termtype, struct termios term);
 void				display_list(t_elem *l, char *s);
 void				ft_unset_canon(struct termios term);
-t_elem				*ft_list_circl(t_elem *l);
-int					ft_list_len(t_elem *l);
 void				ft_handle_sig(int sig);
 void				ft_display_selected(t_elem *l, char *termtype);
+void				ft_display_menu(t_elem *l);
+void				ft_env_error(void);
+
+int					ft_list_len(t_elem *l);
+int					int_char(int c);
+
+void				ft_up(t_elem *l, char *termtype);
+void				ft_down(t_elem *l, char *termtype);
+void				ft_space(t_elem *l, char *termtype);
+void				ft_enter(t_elem *l, char *termtype, struct termios term);
+void				ft_select_all(t_elem *l, char *termtype);
+void				ft_unselect_all(t_elem *l, char *termtype);
 
 #endif
