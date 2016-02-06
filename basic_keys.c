@@ -71,9 +71,9 @@ void	ft_space(t_elem *l)
 	ft_display_size(tmp);
 }
 
-void	ft_enter(t_elem *l, char *termtype, struct termios term)
+void	ft_enter(t_elem *l, struct termios term)
 {
-	ft_display_selected(l, termtype);
+	ft_display_selected(l);
 	ft_unset_canon(term);
 }
 

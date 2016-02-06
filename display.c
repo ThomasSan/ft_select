@@ -1,7 +1,9 @@
 #include "ft_select.h"
 
-void	ft_display_selected(t_elem *l, char *termtype)
+void	ft_display_selected(t_elem *l)
 {
+	char *termtype;
+
 	termtype = getenv("TERM");
 	tgetent(NULL, termtype);
 	tputs(tgetstr("cl", NULL), 1, int_char);
@@ -20,26 +22,21 @@ void	ft_display_selected(t_elem *l, char *termtype)
 void	ft_display_menu(t_elem *l)
 {
 	struct termios	term;
-	char	*line;
-	char	*termtype;
-	int		i;
-	int		li;
+	char			buff[4];
+	char			*termtype;
 
+	printf("oui\n");
+	termtype = getenv("TERM");
+	tgetent(NULL, termtype);
  	tcgetattr(0, &term);
 	term.c_lflag &= ~(ICANON | ECHO);
 	tcsetattr(0, TCSANOW, &term);
-	if (!(line = (char *)malloc(sizeof(char) * 4)))
-		return ;
+	ft_display_size(l);
 	while (42)
 	{
-		termtype = getenv("TERM");
-		tgetent(NULL, termtype);
-		li = tgetnum("li");
-		i = ft_list_len(l);
-		ft_display_size(l);
-		ft_bzero(line, ft_strlen(line));
-		read(0, line, 4);
-		ft_get_input(line, l, termtype, term);
+		ft_bzero(buff, 4);
+		read(0, buff, 4);
+		ft_get_input(buff, l, term);
 	}
 }
 
@@ -54,8 +51,8 @@ void	ft_display_size(t_elem *l)
 	tputs(tgetstr("cl", NULL), 1, int_char);
 	i = ft_list_len(l);
 	lin = tgetnum("li");
-	if (i >= lin)	
-		ft_putendl("Please Resize window");
+	if (i >= lin)
+		ft_putendl_red("Please Resize window");
 	while (i >= lin)
 	{
 		termtype = getenv("TERM");
@@ -63,6 +60,7 @@ void	ft_display_size(t_elem *l)
 		i = ft_list_len(l);
 		lin = tgetnum("li");
 	}
+	tputs(tgetstr("cl", NULL), 1, int_char);
 	display_list(l, termtype);
 }
 
@@ -87,5 +85,30 @@ void	display_list(t_elem *l, char *termtype)
 		tputs(tgetstr("ue", NULL), 1, int_char);
 		tputs(tgetstr("me", NULL), 1, int_char);
 		l = l->next;
+	}
+}
+
+int		control_size(t_elem *l)
+{
+	char	*termtype;
+	int i;
+	int lin;
+	
+	termtype = getenv("TERM");
+	tgetent(NULL, termtype);
+	tputs(tgetstr("cl", NULL), 1, int_char);
+	i = ft_list_len(l);
+	lin = tgetnum("li");
+	if (i < lin)
+	{
+		tputs(tgetstr("cl", NULL), 1, int_char);
+		display_list(l, termtype);
+		return (1);
+	}
+	else
+	{
+		tputs(tgetstr("cl", NULL), 1, int_char);
+		ft_putendl_red("Please Resize window");
+		return (0);
 	}
 }

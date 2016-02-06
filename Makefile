@@ -12,7 +12,7 @@
 
 NAME = ft_select
 SRC = main.c get_next_line.c get_input.c set_terminal.c lst_manip.c misc.c \
-		display.c basic_keys.c extra_keys.c
+		display.c basic_keys.c extra_keys.c signal.c
 
 OBJ = $(SRC:%.c=obj/%.o)
 

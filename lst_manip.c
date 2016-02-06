@@ -53,3 +53,27 @@ int			ft_list_len(t_elem *l)
 	}
 	return (i);
 }
+
+t_elem	*ft_stock(t_elem *l, int i)
+{
+	static t_elem *tmp = NULL;
+
+	if (i == 0)
+		tmp = l;
+	return (tmp);
+}
+// t_elem 		ft_del_one(t_elem *l)
+// {
+// 	t_elem	*tmp;
+// 	t_elem	*swap;
+
+// 	tmp = l;
+// 	while (l)
+// 	{
+// 		swap = l;
+// 		l = l->next;
+// 		if (l->cursor)
+
+// 	}
+// 	return (tmp);
+// }

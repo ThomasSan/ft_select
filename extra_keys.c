@@ -1,6 +1,6 @@
 #include "ft_select.h"
 
-void		ft_select_all(t_elem *l, char *termtype)
+void		ft_select_all(t_elem *l)
 {
 	t_elem *tmp;
 
@@ -11,10 +11,10 @@ void		ft_select_all(t_elem *l, char *termtype)
 			l->select = 1;
 		l = l->next;
 	}
-	display_list(tmp, termtype);
+	ft_display_size(tmp);
 }
 
-void		ft_unselect_all(t_elem *l, char *termtype)
+void		ft_unselect_all(t_elem *l)
 {
 	t_elem *tmp;
 
@@ -25,5 +25,5 @@ void		ft_unselect_all(t_elem *l, char *termtype)
 			l->select = 0;
 		l = l->next;
 	}
-	display_list(tmp, termtype);
+	ft_display_size(tmp);
 }

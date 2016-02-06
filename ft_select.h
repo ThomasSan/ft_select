@@ -39,25 +39,32 @@ typedef struct		s_elem
 
 t_elem				*ft_push_back(t_elem **l, char *s);
 t_elem				*ft_list_circl(t_elem *l);
+t_elem				*ft_stock(t_elem *l, int i);
 
-void				ft_get_input(char *s, t_elem *l, char *termtype, struct termios term);
+void				ft_get_input(char *s, t_elem *l, struct termios term);
 void				display_list(t_elem *l, char *s);
 void				ft_unset_canon(struct termios term);
 void				ft_handle_sig(int sig);
-void				ft_display_selected(t_elem *l, char *termtype);
+void				ft_stop_canon(struct termios term);
+void				ft_set_canon(struct termios term);
+void				ft_signal(void);
+void				ft_display_selected(t_elem *l);
 void				ft_display_menu(t_elem *l);
 void				ft_env_error(void);
 void				ft_putendl_blue(char *s);
+void				ft_putendl_red(char *s);
 void				ft_display_size(t_elem *l);
 
 int					ft_list_len(t_elem *l);
 int					int_char(int c);
+int					control_size(t_elem *l);
+int					ft_fill_buff(t_elem *l);
 
 void				ft_up(t_elem *l);
 void				ft_down(t_elem *l);
 void				ft_space(t_elem *l);
-void				ft_enter(t_elem *l, char *termtype, struct termios term);
-void				ft_select_all(t_elem *l, char *termtype);
-void				ft_unselect_all(t_elem *l, char *termtype);
+void				ft_enter(t_elem *l, struct termios term);
+void				ft_select_all(t_elem *l);
+void				ft_unselect_all(t_elem *l);
 
 #endif
