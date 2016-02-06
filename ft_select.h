@@ -26,6 +26,16 @@
 #include "libft/libft.h"
 #include "get_next_line.h"
 #include <termcap.h>
+#include "libft.h"
+
+typedef struct 		s_main
+{
+	struct 			termios;
+	char			*term;
+	t_elem			*head;
+	int 			col;
+	int 			line;
+}					t_main;
 
 typedef struct		s_elem
 {

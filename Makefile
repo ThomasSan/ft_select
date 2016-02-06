@@ -12,7 +12,7 @@
 
 NAME = ft_select
 SRC = main.c get_next_line.c get_input.c set_terminal.c lst_manip.c misc.c \
-		display.c basic_keys.c extra_keys.c signal.c
+		display.c basic_keys.c extra_keys.c signal.c colored_print.c
 
 OBJ = $(SRC:%.c=obj/%.o)
 
@@ -26,7 +26,7 @@ all: $(NAME)
 
 $(NAME): obj $(OBJ)
 	@make -s -C $(LIB)
-	@$(CXX) $(CXXFLAGS) -o $@ $(OBJ) $(INC) -L$(LIB) -lft -g -ltermcap
+	@$(CXX) $(CXXFLAGS) -o $@ $(OBJ) $(INC) -L$(LIB) -lft -ltermcap
 	@echo "\033[0;32m ______________________   ____________________.____     _______________________________"
 	@echo "\033[0;32m \_   _____/\__    ___/  /   _____/\_   _____/|    |    \_   _____/\_   ___ \__    ___/"
 	@echo "\033[0;32m  |    __)    |    |     \_____  \  |    __)_ |    |     |    __)_ /    \  \/ |    |   "

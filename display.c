@@ -25,7 +25,6 @@ void	ft_display_menu(t_elem *l)
 	char			buff[4];
 	char			*termtype;
 
-	printf("oui\n");
 	termtype = getenv("TERM");
 	tgetent(NULL, termtype);
  	tcgetattr(0, &term);
