@@ -19,8 +19,7 @@ int		main(int ac, char **av)
 
 	i = 0;
 	list = NULL;
-	if (signal(SIGINT, ft_handle_sig) == SIG_ERR)
-		ft_putendl("Error");
+	ft_signal();
 	if (ac == 1)
 	{
 		ft_putendl("usage: ./ft_select [files ...]");
@@ -28,6 +27,7 @@ int		main(int ac, char **av)
 	}
 	while (i++ < ac - 1)
 		list = ft_push_back(&list, av[i]);
+	list = ft_list_circl(list);
 	ft_display_menu(list);
 	return (0);
 }

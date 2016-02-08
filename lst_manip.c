@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lst_manip.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tsanzey <tsanzey@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/02/08 16:14:14 by tsanzey           #+#    #+#             */
+/*   Updated: 2016/02/08 16:14:21 by tsanzey          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_select.h"
 
-t_elem	*ft_push_back(t_elem **l, char *s)
+t_elem		*ft_push_back(t_elem **l, char *s)
 {
 	t_elem	*new;
 	t_elem	*tmp;
@@ -14,9 +26,9 @@ t_elem	*ft_push_back(t_elem **l, char *s)
 	new->next = NULL;
 	new->prev = NULL;
 	new->cursor = *l ? 0 : 1;
-	new->isdir = (dirp = opendir(s)) ? 1 : 0;
-	if (dirp)
+	if ((dirp = opendir(s)) != NULL)
 		closedir(dirp);
+	new->isdir = dirp ? 1 : 0;
 	if (*l == NULL)
 		*l = new;
 	else
@@ -43,10 +55,13 @@ t_elem		*ft_list_circl(t_elem *l)
 
 int			ft_list_len(t_elem *l)
 {
-	int i;
+	t_elem	*tmp;
+	int		i;
 
-	i = 0;
-	while (l)
+	i = 1;
+	tmp = l;
+	l = l->next;
+	while (l != tmp)
 	{
 		l = l->next;
 		i++;
@@ -54,7 +69,7 @@ int			ft_list_len(t_elem *l)
 	return (i);
 }
 
-t_elem	*ft_stock(t_elem *l, int i)
+t_elem		*ft_stock(t_elem *l, int i)
 {
 	static t_elem *tmp = NULL;
 
@@ -62,18 +77,31 @@ t_elem	*ft_stock(t_elem *l, int i)
 		tmp = l;
 	return (tmp);
 }
-// t_elem 		ft_del_one(t_elem *l)
-// {
-// 	t_elem	*tmp;
-// 	t_elem	*swap;
 
-// 	tmp = l;
-// 	while (l)
-// 	{
-// 		swap = l;
-// 		l = l->next;
-// 		if (l->cursor)
+int			ft_del_one(t_elem *l)
+{
+	t_elem	*tmp;
+	t_elem	*swap1;
+	int		i;
 
-// 	}
-// 	return (tmp);
-// }
+	tmp = l;
+	if ((i = ft_list_len(l)) == 1)
+		ft_unset_canon();
+	while (i--)
+	{
+		if (l->cursor)
+		{
+			if (l == tmp)
+				i = -1;
+			swap1 = l->next;
+			swap1->cursor = 1;
+			swap1->prev = l->prev;
+			l->prev->next = swap1;
+			free(l->name);
+			free(l);
+			return (i);
+		}
+		l = l->next;
+	}
+	return (i);
+}

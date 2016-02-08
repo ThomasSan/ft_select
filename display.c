@@ -1,51 +1,68 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   display.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tsanzey <tsanzey@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/02/08 16:21:46 by tsanzey           #+#    #+#             */
+/*   Updated: 2016/02/08 16:22:47 by tsanzey          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_select.h"
 
 void	ft_display_selected(t_elem *l)
 {
-	char *termtype;
+	int i;
+	int x;
 
-	termtype = getenv("TERM");
-	tgetent(NULL, termtype);
+	x = 0;
+	i = ft_list_len(l);
+	tgetent(NULL, getenv("TERM"));
 	tputs(tgetstr("cl", NULL), 1, int_char);
-	while (l)
+	while (i--)
 	{
 		if (l->select)
 		{
 			ft_putstr(l->name);
 			ft_putchar(' ');
+			x++;
 		}
 		l = l->next;
 	}
-	ft_putchar('\n');
+	if (x != 0)
+		ft_putchar('\n');
 }
 
 void	ft_display_menu(t_elem *l)
 {
 	struct termios	term;
 	char			buff[4];
-	char			*termtype;
 
-	termtype = getenv("TERM");
-	tgetent(NULL, termtype);
- 	tcgetattr(0, &term);
+	tgetent(NULL, getenv("TERM"));
+	tcgetattr(0, &term);
 	term.c_lflag &= ~(ICANON | ECHO);
 	tcsetattr(0, TCSANOW, &term);
+	tputs(tgetstr("vi", NULL), 1, int_char);
 	ft_display_size(l);
 	while (42)
 	{
 		ft_bzero(buff, 4);
 		read(0, buff, 4);
-		ft_get_input(buff, l, term);
+		l = ft_get_input(buff, l);
 	}
 }
 
 void	ft_display_size(t_elem *l)
 {
+	int		i;
+	int		lin;
 	char	*termtype;
-	int i;
-	int lin;
-	
+
 	termtype = getenv("TERM");
+	if (!termtype)
+		ft_env_error();
 	tgetent(NULL, termtype);
 	tputs(tgetstr("cl", NULL), 1, int_char);
 	i = ft_list_len(l);
@@ -54,35 +71,24 @@ void	ft_display_size(t_elem *l)
 		ft_putendl_red("Please Resize window");
 	while (i >= lin)
 	{
-		termtype = getenv("TERM");
-		tgetent(NULL, termtype);
+		tgetent(NULL, getenv("TERM"));
 		i = ft_list_len(l);
 		lin = tgetnum("li");
 	}
 	tputs(tgetstr("cl", NULL), 1, int_char);
-	display_list(l, termtype);
+	display_list(l, getenv("TERM"));
 }
 
 void	display_list(t_elem *l, char *termtype)
 {
-	termtype = getenv("TERM");
-	if (!termtype)
-		ft_env_error();
+	int		i;
+
 	tgetent(NULL, termtype);
-	tputs(tgetstr("cl", NULL), 1, int_char);
-	tputs(tgetstr("vi", NULL), 1, int_char);
-	while (l)
+	i = ft_list_len(l);
+	while (i--)
 	{
-		if (l->cursor)
-			tputs(tgetstr("us", NULL), 1, int_char);
-		if (l->select)
-			tputs(tgetstr("mr", NULL), 1, int_char);
-		if (l->isdir)
-			ft_putendl_blue(l->name);
-		else
-			ft_putendl(l->name);
-		tputs(tgetstr("ue", NULL), 1, int_char);
-		tputs(tgetstr("me", NULL), 1, int_char);
+		ft_send_to_print(l);
+		ft_clear_print();
 		l = l->next;
 	}
 }
@@ -90,24 +96,24 @@ void	display_list(t_elem *l, char *termtype)
 int		control_size(t_elem *l)
 {
 	char	*termtype;
-	int i;
-	int lin;
-	
+	int		i;
+	int		lin;
+
 	termtype = getenv("TERM");
 	tgetent(NULL, termtype);
 	tputs(tgetstr("cl", NULL), 1, int_char);
 	i = ft_list_len(l);
 	lin = tgetnum("li");
-	if (i < lin)
+	if (i - 2 < lin)
 	{
 		tputs(tgetstr("cl", NULL), 1, int_char);
-		display_list(l, termtype);
+		ft_display_size(l);
 		return (1);
 	}
 	else
 	{
 		tputs(tgetstr("cl", NULL), 1, int_char);
-		ft_putendl_red("Please Resize window");
+		ft_display_size(l);
 		return (0);
 	}
 }
