@@ -94,8 +94,16 @@ void	ft_enter(t_elem *l)
 
 t_elem	*ft_delete(t_elem *l)
 {
-	if (ft_del_one(l) == -1)
+	int i;
+
+	i = ft_del_one(l);
+	if (i == -1)
 		l = l->next;
+	if (i == -2)
+	{
+		tputs(tgetstr("cl", NULL), 1, int_char);
+		ft_unset_canon();
+	}
 	ft_display_size(l);
 	return (l);
 }

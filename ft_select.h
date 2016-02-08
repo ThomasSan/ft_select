@@ -38,25 +38,39 @@ typedef struct		s_elem
 	struct s_elem	*prev;
 }					t_elem;
 
+/*
+** list related functions
+*/
 t_elem				*ft_push_back(t_elem **l, char *s);
 t_elem				*ft_list_circl(t_elem *l);
 t_elem				*ft_stock(t_elem *l, int i);
-int					ft_del_one(t_elem *l);
-void				ft_go_toend(t_elem *l);
-void				ft_go_home(t_elem *l);
-
 t_elem				*ft_get_input(char *s, t_elem *l);
+t_elem				*ft_delete(t_elem *l);
+int					ft_del_one(t_elem *l);
+int					ft_list_len(t_elem *l);
+/*
+** display functions
+*/
 void				display_list(t_elem *l, char *s);
-void				ft_unset_canon();
-void				ft_handle_sig(int sig);
-void				ft_stop_canon(struct termios term);
-void				ft_set_canon(struct termios term);
-void				ft_signal(void);
+void				ft_send_to_print(t_elem *l);
 void				ft_display_selected(t_elem *l);
 void				ft_display_menu(t_elem *l);
+void				ft_display_size(t_elem *l);
+/*
+** termios functions
+*/
+void				ft_unset_canon();
+void				ft_stop_canon(struct termios term);
+void				ft_set_canon(struct termios term);
 void				ft_env_error(void);
-
-void				ft_send_to_print(t_elem *l);
+/*
+** signal functions
+*/
+void				ft_handle_sig(int sig);
+void				ft_signal(void);
+/*
+** special prints
+*/
 void				ft_putendl_green(char *s);
 void				ft_reverse_green(char *s);
 void				ft_reverse_blue(char *s);
@@ -68,20 +82,22 @@ void				ft_print_reverse(void);
 void				ft_selected_blue(char *s);
 void				ft_putendl_reverse(char *s);
 void				ft_clear_print(void);
-
-void				ft_display_size(t_elem *l);
-
-int					ft_list_len(t_elem *l);
+/*
+**	misc
+*/
 int					int_char(int c);
 int					control_size(t_elem *l);
 int					ft_fill_buff(t_elem *l);
-
+/*
+** Keys Functions
+*/
 void				ft_up(t_elem *l);
 void				ft_down(t_elem *l);
 void				ft_space(t_elem *l);
 void				ft_enter(t_elem *l);
 void				ft_select_all(t_elem *l);
 void				ft_unselect_all(t_elem *l);
-t_elem				*ft_delete(t_elem *l);
+void				ft_go_toend(t_elem *l);
+void				ft_go_home(t_elem *l);
 
 #endif

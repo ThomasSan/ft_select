@@ -86,7 +86,7 @@ int			ft_del_one(t_elem *l)
 
 	tmp = l;
 	if ((i = ft_list_len(l)) == 1)
-		ft_unset_canon();
+		return (-2);
 	while (i--)
 	{
 		if (l->cursor)
@@ -94,9 +94,10 @@ int			ft_del_one(t_elem *l)
 			if (l == tmp)
 				i = -1;
 			swap1 = l->next;
-			swap1->cursor = 1;
 			swap1->prev = l->prev;
 			l->prev->next = swap1;
+			swap1->cursor = tmp == swap1 ? 0 : 1;
+			swap1->prev->cursor = tmp == swap1 ? 1 : 0;
 			free(l->name);
 			free(l);
 			return (i);

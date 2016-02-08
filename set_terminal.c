@@ -31,7 +31,6 @@ void	ft_unset_canon(void)
 	tcgetattr(0, &term);
 	tgetent(NULL, getenv("TERM"));
 	tputs(tgetstr("ve", NULL), 1, int_char);
-	tputs(tgetstr("cl", NULL), 1, int_char);
 	if (tcgetattr(0, &term) == -1)
 		ft_putendl("c get error");
 	term.c_lflag |= (ICANON | ECHO);

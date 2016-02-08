@@ -43,6 +43,8 @@ void	ft_display_menu(t_elem *l)
 	tgetent(NULL, getenv("TERM"));
 	tcgetattr(0, &term);
 	term.c_lflag &= ~(ICANON | ECHO);
+	term.c_cc[VMIN] = 1;
+	term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &term);
 	tputs(tgetstr("vi", NULL), 1, int_char);
 	ft_display_size(l);
