@@ -38,7 +38,6 @@ void	ft_display_selected(t_elem *l)
 void	ft_display_menu(t_elem *l)
 {
 	struct termios	term;
-	char			buff[4];
 
 	tgetent(NULL, getenv("TERM"));
 	tcgetattr(0, &term);
@@ -47,46 +46,24 @@ void	ft_display_menu(t_elem *l)
 	term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &term);
 	tputs(tgetstr("vi", NULL), 1, int_char);
-	ft_display_size(l);
+	tputs(tgetstr("ti", NULL), 1, int_char);
+	control_size(l);
 	while (42)
 	{
-		ft_bzero(buff, 4);
-		read(0, buff, 4);
-		l = ft_get_input(buff, l);
+		if (!ft_fill_buff(l))
+			return ;
 	}
 }
 
-void	ft_display_size(t_elem *l)
+void	display_list(t_elem *l)
 {
 	int		i;
-	int		lin;
 	char	*termtype;
 
 	termtype = getenv("TERM");
-	if (!termtype)
-		ft_env_error();
-	tgetent(NULL, termtype);
-	tputs(tgetstr("cl", NULL), 1, int_char);
-	i = ft_list_len(l);
-	lin = tgetnum("li");
-	if (i >= lin)
-		ft_putendl_red("Please Resize window");
-	while (i >= lin)
-	{
-		tgetent(NULL, getenv("TERM"));
-		i = ft_list_len(l);
-		lin = tgetnum("li");
-	}
-	tputs(tgetstr("cl", NULL), 1, int_char);
-	display_list(l, getenv("TERM"));
-}
-
-void	display_list(t_elem *l, char *termtype)
-{
-	int		i;
-
 	tgetent(NULL, termtype);
 	i = ft_list_len(l);
+	tputs(tgetstr("cl", NULL), 1, int_char);
 	while (i--)
 	{
 		ft_send_to_print(l);
@@ -98,24 +75,25 @@ void	display_list(t_elem *l, char *termtype)
 int		control_size(t_elem *l)
 {
 	char	*termtype;
-	int		i;
 	int		lin;
 
 	termtype = getenv("TERM");
+	if (!termtype)
+		ft_env_error();
 	tgetent(NULL, termtype);
 	tputs(tgetstr("cl", NULL), 1, int_char);
-	i = ft_list_len(l);
 	lin = tgetnum("li");
-	if (i - 2 < lin)
+	l->len = ft_list_len(l);
+	if (l->len > lin)
 	{
 		tputs(tgetstr("cl", NULL), 1, int_char);
-		ft_display_size(l);
-		return (1);
+		ft_putendl_red("Please Resize window");
+		return (0);
 	}
 	else
 	{
 		tputs(tgetstr("cl", NULL), 1, int_char);
-		ft_display_size(l);
-		return (0);
+		display_list(l);
 	}
+	return (1);
 }

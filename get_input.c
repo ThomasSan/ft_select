@@ -20,14 +20,13 @@ int		ft_fill_buff(t_elem *l)
 	read(0, buff, 4);
 	if (control_size(l))
 	{
-		ft_get_input(buff, l);
+		l = ft_get_input(buff, l);
 	}
 	return (1);
 }
 
 t_elem	*ft_get_input(char *s, t_elem *l)
 {
-	printf("%s\n", s);
 	if (s[0] == 27 && s[2] == 'A')
 		ft_up(l);
 	if (s[0] == 27 && s[2] == 'B')
@@ -38,9 +37,9 @@ t_elem	*ft_get_input(char *s, t_elem *l)
 		ft_select_all(l);
 	if (s[0] == 24)
 		ft_unselect_all(l);
-	if (s[0] == '5' && s[1] == 'F')
+	if (s[0] == 27 && s[2] == 'F')
 		ft_go_toend(l);
-	if (s[0] == '5' && s[1] == 'H')
+	if (s[0] == 27 && s[2] == 'H')
 		ft_go_home(l);
 	if ((s[0] == 27 && s[1] == 0) || s[0] == 4)
 		ft_unset_canon();

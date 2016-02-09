@@ -29,7 +29,7 @@ void	ft_handle_sig(int sig)
 	struct termios	term;
 
 	if (sig == SIGINT)
-		ft_unset_canon(term);
+		ft_unset_canon();
 	else if (sig == SIGCONT)
 		ft_set_canon(term);
 	else if (sig == SIGTSTP)

@@ -14,7 +14,6 @@
 # define FT_SELECT_H
 
 # include <stdlib.h>
-# include <stdio.h>
 # include <unistd.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
@@ -34,6 +33,7 @@ typedef struct		s_elem
 	int				select;
 	int				cursor;
 	int				isdir;
+	int				len;
 	struct s_elem	*next;
 	struct s_elem	*prev;
 }					t_elem;
@@ -51,15 +51,15 @@ int					ft_list_len(t_elem *l);
 /*
 ** display functions
 */
-void				display_list(t_elem *l, char *s);
+void				display_list(t_elem *l);
 void				ft_send_to_print(t_elem *l);
 void				ft_display_selected(t_elem *l);
 void				ft_display_menu(t_elem *l);
-void				ft_display_size(t_elem *l);
 /*
 ** termios functions
 */
-void				ft_unset_canon();
+void				ft_unset_canon(void);
+void				ft_exit_canon(void);
 void				ft_stop_canon(struct termios term);
 void				ft_set_canon(struct termios term);
 void				ft_env_error(void);

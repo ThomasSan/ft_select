@@ -25,7 +25,7 @@ void		ft_select_all(t_elem *l)
 			l->select = 1;
 		l = l->next;
 	}
-	ft_display_size(tmp);
+	display_list(tmp);
 }
 
 void		ft_unselect_all(t_elem *l)
@@ -41,7 +41,7 @@ void		ft_unselect_all(t_elem *l)
 			l->select = 0;
 		l = l->next;
 	}
-	ft_display_size(tmp);
+	display_list(tmp);
 }
 
 void		ft_go_toend(t_elem *l)
@@ -58,7 +58,7 @@ void		ft_go_toend(t_elem *l)
 		l = l->next;
 	}
 	tmp->prev->cursor = 1;
-	ft_display_size(tmp);
+	display_list(tmp);
 }
 
 void		ft_go_home(t_elem *l)
@@ -75,5 +75,5 @@ void		ft_go_home(t_elem *l)
 		l = l->next;
 	}
 	tmp->cursor = 1;
-	ft_display_size(tmp);
+	display_list(tmp);
 }

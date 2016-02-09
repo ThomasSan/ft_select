@@ -14,6 +14,8 @@
 
 void	ft_send_to_print(t_elem *l)
 {
+	if (l->cursor)
+		ft_putchar(' ');
 	if (l->select)
 	{
 		if (l->isdir && !l->cursor)

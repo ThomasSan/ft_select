@@ -34,7 +34,7 @@ void	ft_up(t_elem *l)
 		}
 		l = l->next;
 	}
-	ft_display_size(tmp);
+	display_list(tmp);
 }
 
 void	ft_down(t_elem *l)
@@ -55,7 +55,7 @@ void	ft_down(t_elem *l)
 		}
 		l = l->next;
 	}
-	ft_display_size(tmp);
+	display_list(tmp);
 }
 
 void	ft_space(t_elem *l)
@@ -80,16 +80,13 @@ void	ft_space(t_elem *l)
 		}
 		l = l->next;
 	}
-	ft_display_size(tmp);
+	display_list(tmp);
 }
 
 void	ft_enter(t_elem *l)
 {
-	struct termios term;
-
-	tcgetattr(0, &term);
 	ft_display_selected(l);
-	ft_unset_canon(term);
+	ft_exit_canon();
 }
 
 t_elem	*ft_delete(t_elem *l)
@@ -104,6 +101,7 @@ t_elem	*ft_delete(t_elem *l)
 		tputs(tgetstr("cl", NULL), 1, int_char);
 		ft_unset_canon();
 	}
-	ft_display_size(l);
+	l->len = l->len--;
+	display_list(l);
 	return (l);
 }
