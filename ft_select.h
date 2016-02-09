@@ -44,10 +44,11 @@ typedef struct		s_elem
 t_elem				*ft_push_back(t_elem **l, char *s);
 t_elem				*ft_list_circl(t_elem *l);
 t_elem				*ft_stock(t_elem *l, int i);
-t_elem				*ft_get_input(char *s, t_elem *l);
+t_elem				*ft_get_input(char *s, t_elem *l, int *flag);
 t_elem				*ft_delete(t_elem *l);
 int					ft_del_one(t_elem *l);
 int					ft_list_len(t_elem *l);
+int					ft_special_case(t_elem *l, int i);
 /*
 ** display functions
 */

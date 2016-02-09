@@ -22,7 +22,7 @@ void	ft_set_canon(struct termios term)
 	signal(SIGTSTP, ft_handle_sig);
 	tputs(tgetstr("vi", NULL), 1, int_char);
 	tputs(tgetstr("ti", NULL), 1, int_char);
-	ft_putendl("press any key ...");
+	ft_putendl_fd("press any key ...", 2);
 }
 
 void	ft_unset_canon(void)
@@ -34,10 +34,10 @@ void	ft_unset_canon(void)
 	tputs(tgetstr("ve", NULL), 1, int_char);
 	tputs(tgetstr("cl", NULL), 1, int_char);
 	if (tcgetattr(0, &term) == -1)
-		ft_putendl("c get error");
+		ft_putendl_fd("c get error", 2);
 	term.c_lflag |= (ICANON | ECHO);
 	if (tcsetattr(0, TCSANOW, &term))
-		ft_putendl("c set error");
+		ft_putendl_fd("c set error", 2);
 	exit(0);
 }
 
@@ -46,7 +46,7 @@ void	ft_stop_canon(struct termios term)
 	char cp[2];
 
 	if (tcgetattr(0, &term) == -1)
-		ft_putendl("c get error");
+		ft_putendl_fd("c get error", 2);
 	cp[0] = term.c_cc[VSUSP];
 	cp[1] = 0;
 	term.c_lflag |= (ICANON | ECHO);
@@ -55,7 +55,7 @@ void	ft_stop_canon(struct termios term)
 	tputs(tgetstr("ve", NULL), 1, int_char);
 	tputs(tgetstr("te", NULL), 1, int_char);
 	if (tcsetattr(0, TCSANOW, &term))
-		ft_putendl("c set error");
+		ft_putendl_fd("c set error", 2);
 	ioctl(0, TIOCSTI, cp);
 }
 
@@ -73,9 +73,9 @@ void	ft_exit_canon(void)
 	tgetent(NULL, getenv("TERM"));
 	tputs(tgetstr("ve", NULL), 1, int_char);
 	if (tcgetattr(0, &term) == -1)
-		ft_putendl("c get error");
+		ft_putendl_fd("c get error", 2);
 	term.c_lflag |= (ICANON | ECHO);
 	if (tcsetattr(0, TCSANOW, &term))
-		ft_putendl("c set error");
+		ft_putendl_fd("c set error", 2);
 	exit(0);
 }

@@ -15,7 +15,7 @@
 void	ft_send_to_print(t_elem *l)
 {
 	if (l->cursor)
-		ft_putchar(' ');
+		ft_putstr_fd(" ", 2);
 	if (l->select)
 	{
 		if (l->isdir && !l->cursor)
@@ -36,6 +36,6 @@ void	ft_send_to_print(t_elem *l)
 		else if (l->isdir && l->cursor)
 			ft_underl_blue(l->name);
 		else
-			ft_putendl(l->name);
+			ft_putendl_fd(l->name, 2);
 	}
 }

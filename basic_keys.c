@@ -93,6 +93,17 @@ t_elem	*ft_delete(t_elem *l)
 {
 	int i;
 
+	i = ft_list_len(l);
+	if (i == 2)
+	{
+		i = ft_special_case(l, i);
+		if (i != -3)
+		{
+			l = l->next;
+			display_list(l);
+			return (l);
+		}
+	}
 	i = ft_del_one(l);
 	if (i == -1)
 		l = l->next;
@@ -101,7 +112,6 @@ t_elem	*ft_delete(t_elem *l)
 		tputs(tgetstr("cl", NULL), 1, int_char);
 		ft_unset_canon();
 	}
-	l->len = l->len--;
 	display_list(l);
 	return (l);
 }

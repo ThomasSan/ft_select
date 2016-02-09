@@ -14,10 +14,10 @@
 
 void	ft_putendl_red(char *s)
 {
-	ft_putstr("\033[1;31m");
+	ft_putstr_fd("\033[1;31m", 2);
 	ft_print_reverse();
 	ft_putendl_fd(s, 2);
-	ft_putstr("\033[0m");
+	ft_putstr_fd("\033[0m", 2);
 }
 
 void	ft_reverse_green(char *s)
@@ -35,7 +35,7 @@ void	ft_reverse_blue(char *s)
 void	ft_putendl_reverse(char *s)
 {
 	ft_print_reverse();
-	ft_putendl(s);
+	ft_putendl_fd(s, 2);
 }
 
 void	ft_selected_blue(char *s)

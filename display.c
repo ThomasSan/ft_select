@@ -38,7 +38,10 @@ void	ft_display_selected(t_elem *l)
 void	ft_display_menu(t_elem *l)
 {
 	struct termios	term;
+	char			buff[5];
+	int				flag;
 
+	flag = 0;
 	tgetent(NULL, getenv("TERM"));
 	tcgetattr(0, &term);
 	term.c_lflag &= ~(ICANON | ECHO);
@@ -46,12 +49,17 @@ void	ft_display_menu(t_elem *l)
 	term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &term);
 	tputs(tgetstr("vi", NULL), 1, int_char);
-	tputs(tgetstr("ti", NULL), 1, int_char);
 	control_size(l);
 	while (42)
 	{
-		if (!ft_fill_buff(l))
-			return ;
+		ft_bzero(buff, 5);
+		read(0, buff, 4);
+		if ((buff[0] == 27 && buff[1] == 0) || buff[0] == 4)
+			ft_unset_canon();
+		if (control_size(l))
+			l = ft_get_input(buff, l, &flag);
+		else
+			flag = 1;
 	}
 }
 
@@ -84,7 +92,7 @@ int		control_size(t_elem *l)
 	tputs(tgetstr("cl", NULL), 1, int_char);
 	lin = tgetnum("li");
 	l->len = ft_list_len(l);
-	if (l->len > lin)
+	if (l->len > lin - 1)
 	{
 		tputs(tgetstr("cl", NULL), 1, int_char);
 		ft_putendl_red("Please Resize window");

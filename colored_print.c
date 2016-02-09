@@ -14,27 +14,27 @@
 
 void	ft_underl_blue(char *s)
 {
-	ft_putstr("\033[1;36m");
+	ft_putstr_fd("\033[1;36m", 2);
 	tgetent(NULL, getenv("TERM"));
 	tputs(tgetstr("us", NULL), 1, int_char);
-	ft_putendl(s);
-	ft_putstr("\033[0m");
+	ft_putendl_fd(s, 2);
+	ft_putstr_fd("\033[0m", 2);
 }
 
 void	ft_putendl_green(char *s)
 {
 	tgetent(NULL, getenv("TERM"));
-	ft_putstr("\033[1;32m");
+	ft_putstr_fd("\033[1;32m", 2);
 	tputs(tgetstr("us", NULL), 1, int_char);
-	ft_putendl(s);
-	ft_putstr("\033[0m");
+	ft_putendl_fd(s, 2);
+	ft_putstr_fd("\033[0m", 2);
 }
 
 void	ft_putendl_blue(char *s)
 {
-	ft_putstr("\033[1;34m");
-	ft_putendl(s);
-	ft_putstr("\033[0m");
+	ft_putstr_fd("\033[1;34m", 2);
+	ft_putendl_fd(s, 2);
+	ft_putstr_fd("\033[0m", 2);
 }
 
 void	ft_print_reverse(void)

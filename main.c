@@ -22,7 +22,7 @@ int		main(int ac, char **av)
 	ft_signal();
 	if (ac == 1)
 	{
-		ft_putendl("usage: ./ft_select [files ...]");
+		ft_putendl_fd("usage: ./ft_select [files ...]", 2);
 		return (0);
 	}
 	while (i++ < ac - 1)
